@@ -1,0 +1,66 @@
+# Detalhando o passo a passo do projeto
+
+# 1) Definir as bibliotecas necessárias;
+import pandas as pd
+import numpy as np
+import openpyxl
+import time
+import pyautogui
+
+# 2) Entrar no sistema da empresa;
+pyautogui.PAUSE = 0.3  # Intervalo de 0.3 s entre as execuções de linhas do código.
+
+# Abrindo o navegador Microsoft Edge
+pyautogui.press('win')
+pyautogui.write('chrome')
+pyautogui.press('enter')
+
+# Acessando o link do sistema
+link = 'https://dlp.hashtagtreinamentos.com/python/intensivao/login'
+pyautogui.write(link)
+pyautogui.press('enter')
+time.sleep(3) # esperar 3 segundos para o link carregar.
+
+
+# 3) Realizar o login no sistema;
+pyautogui.click(x=1033, y=559)
+# digitando o meu e-mail
+pyautogui.write('elias12345@hotmail.com')
+pyautogui.press('tab')
+# digitando minha senha
+pyautogui.write('senha12345')
+pyautogui.press('enter')
+
+
+# 4) Importar a base de dados de produtos;
+df = pd.read_csv('produtos.csv')
+print(df)
+
+# 5) Cadastrar 1 produto;
+for i in df.index:
+    #clicando no campo código
+    pyautogui.click(x=885, y=377)
+    #preenchendo o campo código
+    pyautogui.write(str(df.loc[i,'codigo']))
+    #passando para o próximo campo
+    pyautogui.press('tab')
+    #preenchendo o restante dos campos
+    pyautogui.write(str(df.loc[i,'marca']))
+    pyautogui.press('tab')
+    pyautogui.write(str(df.loc[i,'tipo']))
+    pyautogui.press('tab')
+    pyautogui.write(str(df.loc[i,'categoria']))
+    pyautogui.press('tab')
+    pyautogui.write(str(df.loc[i,'preco_unitario']))
+    pyautogui.press('tab')
+    pyautogui.write(str(df.loc[i,'custo']))
+    pyautogui.press('tab')
+    obs = df.loc[i,'obs']
+    if not pd.isna(obs):
+        print(pyautogui.write(str(obs)))
+    pyautogui.press('tab')
+    pyautogui.press('enter')
+    pyautogui.scroll(5000)
+
+
+# 6) Repetir o cadastro de 1 produto para todos os produtos.
